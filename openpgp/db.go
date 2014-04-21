@@ -18,9 +18,8 @@
 package openpgp
 
 import (
-	"log"
-
 	"github.com/jmoiron/sqlx"
+	"github.com/juju/errgo"
 	"github.com/lib/pq"
 )
 
@@ -31,7 +30,10 @@ type DB struct {
 func NewDB() (db *DB, err error) {
 	db = new(DB)
 	db.DB, err = sqlx.Connect(Config().Driver(), Config().DSN())
-	return
+	if err != nil {
+		err = errgo.Mask(err)
+	}
+	return db, err
 }
 
 func (db *DB) CreateSchema() (err error) {
@@ -43,17 +45,20 @@ func (db *DB) CreateSchema() (err error) {
 
 func (db *DB) CreateTables() (err error) {
 	for _, crSql := range CreateTablesSql {
-		log.Println(crSql)
-		db.Execf(crSql)
+		logger.Tracef(crSql)
+		_, err = db.Exec(crSql)
+		if err != nil {
+			return errgo.NoteMask(err, crSql)
+		}
 	}
 	return
 }
 
 func (db *DB) DeleteDuplicates() (err error) {
 	for _, sql := range DeleteDuplicatesSql {
-		log.Println(sql)
+		logger.Tracef(sql)
 		if _, err = db.Exec(sql); err != nil {
-			return
+			return errgo.NoteMask(err, sql)
 		}
 	}
 	return
@@ -90,12 +95,11 @@ func isDuplicateConstraint(err error) bool {
 func (db *DB) CreateConstraints() (err error) {
 	for _, crSqls := range CreateConstraintsSql {
 		for _, crSql := range crSqls {
-			log.Println(crSql)
 			if _, err = db.Exec(crSql); err != nil {
 				if isDuplicateConstraint(err) {
 					err = nil
 				} else {
-					return err
+					return errgo.NoteMask(err, crSql)
 				}
 			}
 		}
@@ -106,10 +110,8 @@ func (db *DB) CreateConstraints() (err error) {
 func (db *DB) DropConstraints() (err error) {
 	for _, drSqls := range DropConstraintsSql {
 		for _, drSql := range drSqls {
-			log.Println(drSql)
 			if _, err := db.Exec(drSql); err != nil {
-				// TODO: Ignore duplicate error or check for this ahead of time
-				log.Println(err)
+				logger.Warningf("%s: %v", drSql, err)
 			}
 		}
 	}

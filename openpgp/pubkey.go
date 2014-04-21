@@ -26,7 +26,6 @@ import (
 	"fmt"
 	"hash"
 	"io"
-	"log"
 	"strings"
 	"time"
 
@@ -221,7 +220,7 @@ func (pubkey *Pubkey) initV4() error {
 		return err
 	}
 	if pubkey.PublicKey.IsSubkey {
-		log.Println("Expected primary public key packet, got sub-key")
+		logger.Errorf("expected primary public key packet, got sub-key: %q", fingerprint)
 		return ErrInvalidPacketType
 	}
 	pubkey.RFingerprint = util.Reverse(fingerprint)
@@ -244,7 +243,7 @@ func (pubkey *Pubkey) initV3() error {
 		return err
 	}
 	if pubkey.PublicKeyV3.IsSubkey {
-		log.Println("Expected primary public key packet, got sub-key")
+		logger.Errorf("expected primary public key packet, got sub-key: %q", fingerprint)
 		return ErrInvalidPacketType
 	}
 	pubkey.RFingerprint = util.Reverse(fingerprint)

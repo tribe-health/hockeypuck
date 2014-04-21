@@ -22,11 +22,12 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"fmt"
-	"log"
 	"os"
 	"os/user"
 	"runtime"
 	"strings"
+
+	"github.com/juju/loggo"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -37,6 +38,8 @@ import (
 )
 
 const LOOKUP_RESULT_LIMIT = 100
+
+var logger = loggo.GetLogger("hockeypuck.openpgp")
 
 type Worker struct {
 	*Loader
@@ -94,14 +97,14 @@ func (w *Worker) Run() {
 			case *hkp.HashQuery:
 				w.HashQuery(r)
 			default:
-				log.Println("Unsupported HKP service request:", req)
+				logger.Warningf("unsupported HKP service request: %v", req)
 			}
 		case r, ok := <-w.Peer.RecoverKey:
 			if !ok {
 				return
 			}
 			resp := w.recoverKey(&r)
-			log.Println(resp)
+			logger.Tracef("recovery response: %v", resp)
 			r.response <- resp
 		}
 	}
@@ -151,18 +154,18 @@ func (w *Worker) HashQuery(hq *hkp.HashQuery) {
 	for _, digest := range hq.Digests {
 		uuid, err := w.lookupMd5Uuid(digest)
 		if err != nil {
-			log.Printf("Hashquery lookup [%s] failed: %q\n", digest, err)
+			logger.Errorf("hashquery lookup %q failed: %v", digest, err)
 			if err == ErrKeyNotFound {
 				// I guess we *don't* have this digest. Try to remove from prefix tree.
 				z, err := DigestZp(digest)
 				if err != nil {
-					log.Printf("bad digest %q: %q", z.String(), err)
+					logger.Errorf("bad digest %q: %v", z.String(), err)
 				} else {
 					err = w.Peer.Remove(z)
 					if err != nil {
-						log.Printf("failed to remove %q: %q", z.String(), err)
+						logger.Errorf("failed to remove %q: %v", z.String(), err)
 					} else {
-						log.Printf("removed %q from prefix tree", z.String())
+						logger.Errorf("removed %q from prefix tree", z.String())
 					}
 				}
 			}
@@ -260,8 +263,8 @@ func flattenUuidRows(rows *sqlx.Rows) (uuids []string, err error) {
 
 func (w *Worker) lookupKeywordUuids(search string, limit int) (uuids []string, err error) {
 	search = strings.Join(strings.Split(search, " "), "+")
-	log.Println("keyword:", search)
-	log.Println("limit:", limit)
+	logger.Tracef("search: %s", search)
+	logger.Tracef("limit: %d", limit)
 	rows, err := w.db.Queryx(`
 SELECT DISTINCT pubkey_uuid FROM openpgp_uid
 WHERE keywords_fulltext @@ to_tsquery($1) LIMIT $2`, search, limit)
@@ -294,7 +297,7 @@ func (w *Worker) fetchKeys(uuids []string) (results ReadKeyResults) {
 		key, err := w.FetchKey(uuid)
 		results = append(results, &ReadKeyResult{Pubkey: key, Error: err})
 		if err != nil {
-			log.Println("Fetch key:", err)
+			logger.Errorf("fetch key %q: %v", uuid, err)
 		}
 	}
 	return
@@ -409,8 +412,7 @@ SELECT * FROM openpgp_sig sig WHERE pubkey_uuid = $1 AND subkey_uuid = $2
 
 	digest := SksDigest(pubkey, md5.New())
 	if digest != pubkey.Md5 {
-		// TODO: make this a WARN level message when we use loggo
-		log.Println("digest mismatch for key [%s]: indexed=%s material=%s",
+		logger.Warningf("digest mismatch for key %q: indexed=%s material=%s",
 			pubkey.Fingerprint(), pubkey.Md5, digest)
 	}
 

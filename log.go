@@ -18,20 +18,26 @@
 package hockeypuck
 
 import (
+	"fmt"
 	"io"
-	"log"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"syscall"
+	"time"
+
+	"github.com/juju/loggo"
 )
+
+var logger = loggo.GetLogger("hockeypuck")
 
 // Logfile option
 func (s *Settings) LogFile() string {
 	return s.GetString("hockeypuck.logfile")
 }
 
-var logOut io.Writer = nil
+func (s *Settings) LogSpec() string {
+	return s.GetStringDefault("hockeypuck.logspec", `<root>=INFO`)
+}
 
 // InitLog initializes the logging output to the globally configured settings.
 // It also registers SIGHUP, SIGUSR1 and SIGUSR2 to close and reopen the log file
@@ -51,12 +57,8 @@ func InitLog() {
 			for {
 				select {
 				case _ = <-sigChan:
-					closeable, canClose := logOut.(io.WriteCloser)
 					openLog()
-					if canClose {
-						closeable.Close()
-					}
-					log.Println("Reopened logfile")
+					logger.Infof("reopened logfile")
 				}
 			}
 		}()
@@ -65,19 +67,56 @@ func InitLog() {
 	openLog()
 }
 
+type logWriter struct {
+	writer    io.Writer
+	formatter loggo.Formatter
+}
+
+func (lw *logWriter) Write(level loggo.Level, module, filename string, line int, timestamp time.Time, message string) {
+	logLine := lw.formatter.Format(level, module, filename, line, timestamp, message)
+	fmt.Fprintln(lw.writer, logLine)
+}
+
+func (lw *logWriter) Close() error {
+	if cl, ok := lw.writer.(io.WriteCloser); ok {
+		return cl.Close()
+	}
+	return nil
+}
+
+func setOutput(w io.Writer) error {
+	newWriter := &logWriter{w, &loggo.DefaultFormatter{}}
+	prevWriter, err := loggo.ReplaceDefaultWriter(newWriter)
+	if err != nil {
+		return err
+	}
+	if lw, ok := prevWriter.(*logWriter); ok {
+		lw.Close()
+	}
+	return nil
+}
+
 func openLog() {
 	if Config().LogFile() != "" {
-		var err error
-		logOut, err = os.OpenFile(Config().LogFile(), os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
+		logOut, err := os.OpenFile(Config().LogFile(), os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
 		if err != nil {
-			log.Println("Failed to open logfile", err)
+			logger.Errorf("failed to open logfile: %v", err)
 			logOut = os.Stderr
 		} else {
-			log.SetOutput(logOut)
+			err = setOutput(logOut)
+			if err != nil {
+				logger.Errorf("failed to set logfile output: %v", err)
+				logOut = os.Stderr
+			}
 		}
 	} else {
-		log.SetOutput(os.Stderr)
+		err := setOutput(os.Stderr)
+		if err != nil {
+			logger.Errorf("failed to set logfile output: %v", err)
+		}
 	}
-	log.SetPrefix(filepath.Base(os.Args[0]))
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	err := loggo.ConfigureLoggers(Config().LogSpec())
+	if err != nil {
+		logger.Errorf("invalid logger spec %q: %v", Config().LogSpec(), err)
+	}
 }

@@ -18,14 +18,16 @@
 package hkp
 
 import (
-	"log"
 	"net/http"
 
 	"code.google.com/p/gorilla/mux"
+	"github.com/juju/loggo"
 
 	"github.com/hockeypuck/hockeypuck"
 	Errors "github.com/hockeypuck/hockeypuck/errors"
 )
+
+var logger = loggo.GetLogger("hockeypuck.hkp")
 
 func (s *Settings) HttpBind() string {
 	return s.GetStringDefault("hockeypuck.hkp.bind", ":11371")
@@ -60,18 +62,18 @@ func (r *Router) HandleAll() {
 func (r *Router) Respond(w http.ResponseWriter, req Request) {
 	err := req.Parse()
 	if err != nil {
-		log.Println("Error parsing request:", err)
+		logger.Errorf("bad request: %v", err)
 		http.Error(w, hockeypuck.APPLICATION_ERROR, 400)
 		return
 	}
 	r.Requests <- req
 	resp := <-req.Response()
 	if resp.Error() != nil {
-		log.Println("Error in response:", resp.Error())
+		logger.Errorf("error building response: %v", resp.Error())
 	}
 	err = resp.WriteTo(w)
 	if err != nil {
-		log.Println(resp, err)
+		logger.Errorf("error writing response: %v", err)
 	}
 }
 

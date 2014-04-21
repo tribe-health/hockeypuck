@@ -21,7 +21,6 @@ import (
 	"bytes"
 	"database/sql"
 	"io"
-	"log"
 	"strings"
 	"time"
 
@@ -149,7 +148,7 @@ func (subkey *Subkey) initV4() error {
 		return err
 	}
 	if !subkey.PublicKey.IsSubkey {
-		log.Println("Expected sub-key packet, got primary public key")
+		logger.Warningf("expected sub-key packet, got primary public key: %q", fingerprint)
 		return ErrInvalidPacketType
 	}
 	subkey.RFingerprint = util.Reverse(fingerprint)
@@ -167,7 +166,7 @@ func (subkey *Subkey) initV3() error {
 		return err
 	}
 	if subkey.PublicKeyV3.IsSubkey {
-		log.Println("Expected primary public key packet, got sub-key")
+		logger.Warningf("expected sub-key packet, got primary public key: %q", fingerprint)
 		return ErrInvalidPacketType
 	}
 	subkey.RFingerprint = util.Reverse(fingerprint)

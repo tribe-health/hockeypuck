@@ -22,7 +22,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -45,7 +44,7 @@ func (r *ErrorResponse) Error() error {
 func (r *ErrorResponse) WriteTo(w http.ResponseWriter) error {
 	w.WriteHeader(400)
 	fmt.Fprintf(w, hockeypuck.BAD_REQUEST)
-	log.Println(r.Err)
+	logger.Errorf("response error: %v", r.Err)
 	return r.Err
 }
 

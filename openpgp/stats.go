@@ -18,11 +18,12 @@
 package openpgp
 
 import (
-	"log"
 	"net"
 	"strconv"
 	"sync"
 	"time"
+
+	"launchpad.net/juju-core/log"
 
 	"github.com/hockeypuck/hockeypuck"
 	"github.com/hockeypuck/hockeypuck/hkp"
@@ -45,7 +46,7 @@ func (s *Settings) StatsRefresh() int {
 func (w *Worker) monitorStats() {
 	statsRefresh := Config().StatsRefresh()
 	if statsRefresh <= 0 {
-		log.Println("load statistics disabled")
+		logger.Infof("load statistics disabled")
 		return
 	}
 
@@ -54,24 +55,24 @@ func (w *Worker) monitorStats() {
 			var stats []PksKeyStats
 			err := w.db.Select(&stats, selectHourlyStats)
 			if err != nil {
-				log.Println("failed to update hourly stats: %v", err)
+				logger.Errorf("failed to update hourly stats: %v", err)
 			} else {
 				keyStatsLock.Lock()
 				defer keyStatsLock.Unlock()
 				keyStatsHourly = stats
-				log.Println("hourly stats updated")
+				logger.Infof("hourly stats updated")
 			}
 		}()
 		go func() {
 			var stats []PksKeyStats
 			err := w.db.Select(&stats, selectDailyStats)
 			if err != nil {
-				log.Println("failed to update daily stats: %v", err)
+				log.Errorf("failed to update daily stats: %v", err)
 			} else {
 				keyStatsLock.Lock()
 				defer keyStatsLock.Unlock()
 				keyStatsDaily = stats
-				log.Println("daily stats updated")
+				log.Infof("daily stats updated")
 			}
 		}()
 		time.Sleep(time.Duration(statsRefresh) * time.Hour)
@@ -129,11 +130,11 @@ func (s *HkpStats) fetchServerInfo(l *hkp.Lookup) {
 	if host, port, err := net.SplitHostPort(l.Host); err == nil {
 		s.Hostname = host
 		if s.Port, err = strconv.Atoi(port); err != nil {
-			log.Println("Error parsing port:", err)
+			logger.Errorf("error parsing port: %v", err)
 		}
 	} else {
 		s.Hostname = l.Host
-		log.Println("Error parsing Host:", err)
+		logger.Errorf("error parsing host: %v", err)
 	}
 }
 

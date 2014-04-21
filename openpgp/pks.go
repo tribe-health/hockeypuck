@@ -19,7 +19,6 @@ package openpgp
 
 import (
 	"bytes"
-	"log"
 	"net/smtp"
 	"strings"
 	"time"
@@ -140,10 +139,10 @@ func (ps *PksSync) SendKeys(status *PksStatus) (err error) {
 	}
 	for _, key := range keys {
 		// Send key email
-		log.Println("Sending key", key.Fingerprint(), "to PKS", status.Addr)
+		logger.Infof("sending key %q to PKS email %q", key.Fingerprint(), status.Addr)
 		err = ps.SendKey(status.Addr, key)
 		if err != nil {
-			log.Println("Error sending key to PKS", status.Addr, ":", err)
+			logger.Errorf("failed to send key to PKS email %q: %v", status.Addr, err)
 			return
 		}
 		// Send successful, update the timestamp accordingly
@@ -172,7 +171,7 @@ func (ps *PksSync) run() {
 	for {
 		statuses, err := ps.SyncStatus()
 		if err != nil {
-			log.Println("Error obtaining PKS sync status", err)
+			logger.Errorf("failed to sync PKS status: %v", err)
 			goto POLL_NEXT
 		}
 		for _, status := range statuses {
@@ -194,7 +193,7 @@ func (ps *PksSync) run() {
 		select {
 		case _, ok := <-ps.stop:
 			if !ok {
-				log.Println("Stopping PKS sync")
+				logger.Infof("stopping PKS sync")
 				return
 			}
 		default:
@@ -203,7 +202,7 @@ func (ps *PksSync) run() {
 		toSleep := time.Duration(delay) * time.Minute
 		if delay > 1 {
 			// log delay if we had an error
-			log.Println("Sleeping", toSleep)
+			logger.Debugf("PKS poll sleeping %d minute(s)", toSleep)
 		}
 		time.Sleep(toSleep)
 	}
