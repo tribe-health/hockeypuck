@@ -1,0 +1,30 @@
+.. title: Credits
+.. slug: credits
+.. date: 2013/10/13 16:00:00
+.. tags: 
+.. link: 
+.. description: 
+
+Front-page Graphic
+==================
+The "gopher bringing the keys" graphic on the `front page </index.html>`_
+is of course a basic remix of `Go Language Gopher mascot <http://golang.org/doc/faq#Whats_the_origin_of_the_mascot>`_. The keys are from `Openclipart <http://openclipart.org/detail/12889/keyring-by-anonymous-12889>`_.
+
+go.crypto/openpgp
+=================
+I made several improvements to the Go language implementation of OpenPGP
+in `go.crypto <https://code.google.com/p/go.crypto>`_ to support Hockeypuck needs,
+mostly with regards to OpenPGP parsing. The review process improved my Go
+programming habits and was generally quick and easy. Go is an enjoyable project to
+contribute to! Also, rietveld is awesome.
+
+sks-devel
+=========
+The `sks-devel <https://lists.gnu.org/archive/html/sks-devel/>`_ community has given me great advice, direction and feedback on Hockeypuck,
+and helped me quite a bit with understanding the SKS reconciliation algorithm and other implementation details.
+
+Third-party Libraries
+=====================
+Hockeypuck would not be where it is without the Go language standard library
+and other packages it is built on. See debian/copyright for a complete up-to-date
+listing.

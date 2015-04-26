@@ -1,0 +1,33 @@
+.. title: Hockeypuck
+.. slug: index
+.. date: 2013/10/12 22:19:17
+.. tags:
+.. link:
+
+.. image:: /gohkp.png
+   :align: right
+
+Hockeypuck is an OpenPGP `public keyserver <https://en.wikipedia.org/wiki/Key_server_(cryptographic)>`_.
+
+This keyserver implements the
+`HKP draft protocol specification <http://ietfreport.isoc.org/idref/draft-shaw-openpgp-hkp/>`_
+as well as several extensions to the protocol supported by `SKS <http://sks-keyservers.net/>`_.
+
+Public key material conforming to `RFC 4880 <https://tools.ietf.org/html/rfc4880>`_ are supported by the service, as are `RFC 6637 <https://tools.ietf.org/html/rfc6637>`_ ECC keys.
+
+Go Language
+-----------
+Hockeypuck is developed in 100% pure `Go <http://http://golang.org/>`_. It compiles and runs on Linux and BSD variants including Mac OS X. The concurrent capacity of the service should be limited only by the underlying key storage database. The Go language fosters a simple, modular, mostly-imperative programming style that I think is natural yet refreshing for developers coming from a C, Python or Java background (like myself).
+
+PostgreSQL Key Database
+-----------------------
+Hockeypuck stores all public key material in a relational PostgreSQL database.
+The schema is optimized for performance but also data integrity, cross-referencing
+and search capabilities with judicious use of foreign keys and full-text indexing.
+
+SKS Reconciliation Protocol
+---------------------------
+Hockeypuck is the first keyserver besides SKS that is capable of synchronizing public
+key material with peers using the SKS reconciliation protocol. Recon protocol
+support is provided with the `Conflux <https://github.com/cmars/conflux>`_ library,
+developed initially for this purpose, but potentially useful for other applications.
