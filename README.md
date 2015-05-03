@@ -50,7 +50,7 @@ Several options are available:
 # Next Steps
 
 * [Configuring](configuration.md) a Hockeypuck server.
-* [Peering](peering.md) with other compatible public keyservers.
+* [Pre-populating](pre-populating.md) Hockeypuck with keyfiles.
 * [Contributing](contributing.md) to Hockeypuck.
 * [Community](community.md) support for Hockeypuck, for issues and new feature requests.
 

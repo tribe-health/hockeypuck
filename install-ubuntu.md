@@ -27,6 +27,10 @@ Otherwise, skip and install hockeypuck. You'll need to `configure </configuratio
 
 `sudo apt-get install hockeypuck`
 
+# Start Hockeypuck
+
+`sudo service hockeypuck start`
+
 # Next steps
 
 * [Configure](configuration.md) the Hockeypuck server.

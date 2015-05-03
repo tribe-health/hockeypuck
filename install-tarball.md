@@ -24,4 +24,5 @@ build packages for other operating system distributions. Contributions to the [p
 # Next steps
 
 * [Configure](configuration.md) the Hockeypuck server.
+* Run Hockeypuck with `/path/to/hockeypuck -config /path/to/hockeypuck.conf`.
 
