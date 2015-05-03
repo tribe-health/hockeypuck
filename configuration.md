@@ -1,253 +1,170 @@
-.. title: Configuration
-.. slug: configuration
-.. date: 2013/09/30 15:00:00
-.. tags: 
-.. link: 
-.. description: 
+# Configuration
 
-Format
-======
 Hockeypuck reads a TOML-format configuration file for setting various
 options on the subsystems and features of the service.
 
-Quickstart
-==========
-When run without any configuration, Hockeypuck will assume the following:
+## Logging
 
-* Service HKP requests on port 11371 (all interfaces).
-* SKS and PKS public key synchronization methods are disabled.
-* Default PostgreSQL connection settings:
-
-  - Connect to PostgreSQL via local UNIX domain socket in /var/run/postgresql.
-  - Connect to a database named 'hkp', accessible and modifiable by the user executing Hockeypuck.
-
-* Public key signatures will not be verified on /pks/add or bulk loading.
-* Static media files are expected to be in $GOPATH/src/github.com/hockeypuck/hockeypuck/instroot/var/lib/postgresql/www.
-* Log messages written to stderr.
-
-These and other options can be customized as follows.
-
+```
 [hockeypuck]
-============
-General settings for the overall service.
+logfile="/path/to/logfile"
+loglevel=<one of: DEBUG,INFO,WARNING,ERROR,FATAL,PANIC>
+```
 
-logfile=\ *"/path/to/hockeypuck.log"*
--------------------------------------
-Path where log messages should be written.
+If not configured, hockeypuck will log INFO level messages and higher severity
+to standard error.
 
-Type
-    Quoted string
-Default
-    Hockeypuck logs messages to standard error.
+## Static HTML files
 
-[hockeypuck.hkp]
-================
-HTTP Keyserver Protocol settings.
+Hockeypuck will serve static files from `/` out of the `webroot` path, so long as
+the path names do not conflict with HKP routed requests (like "/pks/lookup").
 
-bind=\ *"[address]:port"*
--------------------------
-Listen on address:port for HKP requests. Omit address to accept requests to this port on any interface.
+```
+[hockeypuck]
+webroot="/path/to/www/files"
+```
 
-Type
-    Quoted string
-Default
-    ":11371"
+`index.html` will be served by default if the path resolves to a directory and
+the file exists.
 
-webroot=\ *"/path/to/hockeypuck/media/www"*
--------------------------------------------
-Path to the static media files used to serve Hockeypuck's HTML web UI.
+## Custom HTML templates
 
-Type
-    Quoted string
-Default
-    "$GOPATH/src/github.com/hockeypuck/hockeypuck/instroot/var/lib/hockeypuck/www"
+By default, Hockeypuck will respond to HKP operations `op=index`, `op=vindex`
+and `op=stats` requests with an `application/json` response. The underlying
+structs for these responses can be used in HTML templates of your own design
+to customize the output.
 
-    (Note that environment variables are not evaluated for configured values of webroot.)
+These options are:
 
-[hockeypuck.hkps]
-=================
-HTTPS Keyserver Protocol settings. To serve over HKPS, all three options
-must be defined.
+```
+[hockeypuck]
+indexTemplate="/path/to/template"
+vindexTemplate="/path/to/template"
+statsTemplate="/path/to/template"
+```
 
-bind=\ *"[address]:port"*
--------------------------
-Listen on address:port for HKPS requests. Omit address to accept requests to this port on any interface.
+The path to the template must be a file containing a valid Go [html/template](https://golang.org/pkg/html/template/).
 
-cert=\ *"/path/to/server.pem"*
-------------------------------
-Path to the server's TLS certificate.
+`indexTemplate` and `vindexTemplate` operate on a struct containing two top-level fields,
 
-key=\ *"/path/to/server.key"*
------------------------------
-Path to the server's TLS private key.
- 
-[hockeypuck.openpgp]
-====================
-OpenPGP service settings.
+* .Query, an instance of the [hkp.Lookup](https://godoc.org/gopkg.in/hockeypuck/hkp.v1#Lookup) request parameters.
+* .Keys, which is a slice of [jsonhkp.PrimaryKey](https://godoc.org/gopkg.in/hockeypuck/hkp.v1/jsonhkp#PrimaryKey) model structs.
 
-verifySigs=\ *(boolean value)*
-------------------------------
-When true, Hockeypuck will attempt to verify every self-signed packet
-that it can, and store the status in the signature packet's STATE column.
-This is used to enhance the quality of the keyserver results at the expense of performance.
-Any user of this service must independently verify signatures for security even when enabled.
+`statsTemplate` operates on an instance of [server.stats](https://github.com/hockeypuck/server/blob/38c262ad65376d38727271cbbc5a71123672de70/server.go#L126).
 
-Type
-    boolean
-Default
-    false
+See the [packaged template files](https://github.com/hockeypuck/packaging/tree/master/instroot/var/lib/hockeypuck/templates) examples.
 
-nworkers=\ *(int, > 0)*
------------------------
-Number of workers that will concurrently load key material into
-the database & prefix tree.
+## Storage
 
-Type
-    int
-Default
-    # of detected cores
+### MongoDB
 
-statsRefresh=\ *(int, >0)*
---------------------------
-Number of hours to wait between refreshing the load statistics displayed at
-/pks/lookup?op=stats.  In some cases, the stats query can scan a large number
-of rows, so it is not recalculated on each request.
+If storage is not otherwise configured, the default is to use the MongoDB
+driver to connect to `localhost:27017`. This is effectively:
 
-Type
-    int
-Default
-    4
-
+```
 [hockeypuck.openpgp.db]
-=======================
-OpenPGP database connection options.
+driver="mongo"
+dsn="localhost:27017"
+```
 
-driver="postgres"
------------------
-The only supported database/sql driver is "postgres".
+The `dsn` field is just the _host:port_ of the MongoDB server.
 
-dsn=\ "*(postgres connection string)*"
---------------------------------------
-PostgreSQL connection string. See https://github.com/lib/pq for more information
-on the format and supported parameters.
+Hockeypuck will default to database name `hkp` and collection name `keys` for storing public key material documents. This can be changed with the options:
 
-Type
-    Quoted string
-Default
-    "dbname=hkp host=/var/run/postgresql sslmode=disable"
+```
+[hockeypuck.openpgp.db.mongo]
+db=dbname
+collection=collection_name
+```
 
-    This connects through a local socket to database 'hkp' owned by the effective user)
+### PostgreSQL
 
-[conflux.recon]
-===============
-Options for `Conflux <https://github.com/cmars/conflux>`_, which provides SKS reconciliation protocol support for Hockeypuck.
+PostgreSQL >= 9.4 is required for use with Hockeypuck, as the JSONB data type is used to store most of the public key material. Some fields are broken out into separate columns for indexing. For details, refer to the PostgreSQL backend package, [pghkp.v1](https://gopkg.in/hockeypuck/pghkp.v1).
 
-reconPort=\ *(int, port number)*
---------------------------------
-Listen port for the SKS recon protocol. All interfaces will listen on this address.
-Use this port in a remote SKS membership file to peer SKS with Hockeypuck.
+To use PostgreSQL:
 
-Type
-    int
-Default
-    11370
+```
+[hockeypuck.openpgp.db]
+driver="postgres-jsonb"
+dsn="database=hkp host=/var/run/postgresql port=5433 sslmode=disable"
+```
 
-httpPort=\ *(int, port number)*
--------------------------------
-HTTP port reported to peer. This must match the port specified for
-hockeypuck.hkp.bind.
+See the [pq driver package documentation](https://godoc.org/github.com/lib/pq) for details on how to construct the connection string.
 
-Type
-    int
-Default
-    11371
+## Peering
 
-partners=\ *\["addr1:port1","addr2:port2",...,"addrN:portN"\]*
---------------------------------------------------------------
-List of peers Hockeypuck will gossip with. This is Hockeypuck's
-equivalent to the SKS membership file.
+Hockeypuck supports the SKS reconciliation (recon) protocol. It can peer with
+other Hockeypuck or SKS instances.
 
-Type
-    List of quoted strings
-Default
-    Empty list
-Example
-    partners=["sks1.cmarstech.com:11370","sks2.cmarstech.com:11370"]
+### Local peer options
 
-filters=\ *\["filter1","filter2",...,"filterN"\]*
--------------------------------------------------
-SKS filters, which must match your peers' configuration. Hockeypuck
-doesn't really interpret this setting. De-duplication and key merging
-are not optional filters, they are the only supported mode of operation.
-This setting is currently provided for SKS compatibility purposes only.
-Future filters may be supported by Hockeypuck.
+```
+[hockeypuck.conflux.recon]
+httpAddr=":11371"
+reconAddr=":11370"
+```
 
-Type
-    List of quoted strings
-Default
-    Empty list
-Example
-    filters=["yminsky.dedup"]
+The above are default settings if not otherwise specified.
 
-[conflux.recon.leveldb]
-=======================
-Conflux stores public key digests in a persistent prefix tree data structure.
+`httpAddr` determines the address that will be advertised to remote peers for
+retrieving key material with `/pks/hashquery` requests.
 
-path=\ *"/path/to/recon-ptree"*
--------------------------------
-Path to the directory containing the prefix tree data.
+`reconAddr` determines the listen address for the recon server. This is
+conventionally `:11370` among SKS keyservers.
 
-Type
-    Quoted string
-Default
-    path="$(pwd)/recon-ptree"
+### Adding remote peers
 
-[hockeypuck.openpgp.pks]
-========================
-PKS is an older protocol for public keyserver synchronization over email.
+```
+[hockeypuck.conflux.recon.partner.peer1]
+httpAddr="keys.cmarstech.com:11371"
+reconAddr="keys.cmarstech.com:11370"
 
-Hockeypuck stores a timestamp per downstream email address.
-Hockeypuck will periodically send all public keys updated since the last downstream send.
+[hockeypuck.conflux.recon.partner.peer2]
+httpAddr="juju-azure-dev-y9157oo521.cloudapp.net:11371"
+reconAddr="juju-azure-dev-y9157oo521.cloudapp.net:11370"
+```
 
-to=\ *\["user@pkshost1","user@pkshost2",..."user@pkshostN"\]*
--------------------------------------------------------------
-Send keys to these downstream PKS servers.
+Create a section for each peer `[hockeypuck.conflux.recon.partner.peername]`,
+where _peername_ is a unique logical name given to each peer (it doesn't have to relate
+to the hostnames or anything).
 
-Type
-    List of quoted string
+For each peer, define the `httpAddr` and `reconAddr`. Note that these are
+_usually_ the same host, but they might differ, especially if the peer
+reverse-proxies their HKP service.
 
-from=\ *"pgp-public-keys@yourhost.yourdomain.com"*
---------------------------------------------------
-PKS sync *mail from:* address, which should be a valid address upon which
-hockeypuck can receive PKS mail. This address is displayed on the op=stats
-page for peering purposes.
+#### Protocol and network options
 
-Type
-    Quoted string
+```
+[hockeypuck.conflux.recon]
+version="1.1.3"                # this is default
+allowCIDRs=["10.0.0.1/8"]      # default is []
+filters=["yminsky.dedup"]      # default is []
+```
 
-[hockeypuck.openpgp.pks.smtp]
-=============================
-Custom SMTP settings for sending PKS mail. The default is to connect locally to an SMTP server on port 25.
+`version` is the protocol compatibility version (SKS release version)
+advertised to remote peers. Hockeypuck does not use this field.
 
-host=\ *"address:port"*
--------------------------
-SMTP server to connect to send outbound PKS mail.
+`allowCIDRS` is used to allow incoming recon connections from remote addresses
+other than the defined peers. This is especially useful when inbound
+connections to Hockeypuck are subject to NAT (some cloud providers do this). If
+not specified, inbound connections are only allowed from partner IP addresses.
 
-Type
-    Quoted string
-Example
-    host="smtp.google.com:587"
+`filters` are labels that indicate the type of processing that has been applied
+to key material. Recent versions of SKS typically require
+`filters=["yminsky.dedup"]`, which indicates that duplicate PGP packets have
+been dropped from key material. Hockeypuck deduplicates key material
+regardless; this field is only used for protocol compatibility with SKS.
 
-user=\ *"(smtp.username)"*
---------------------------
-SMTP account username, if necessary.
+#### Prefix tree location
 
-Type
-    Quoted string
+```
+[hockeypuck.conflux.recon.leveldb]
+path="/path/to/prefix/tree"
+```
 
-pass=\ *"(smtp password)"*
---------------------------
-SMTP account password, if necessary.
+The prefix tree is a separate index maintained for synchronization purposes.
+Hockeypuck uses LevelDB for its storage, but it is structurally similar to the
+bdb prefix tree used by SKS.
 
-Type
-    Quoted string
+The `path` given should be a writeable directory that already exists.
+

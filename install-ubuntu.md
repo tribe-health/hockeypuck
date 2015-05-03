@@ -1,53 +1,33 @@
-.. title: Install on Ubuntu Server
-.. slug: install-ubuntu
-.. date: 2013/09/30 21:45:00
-.. tags: 
-.. link: 
-.. description: 
+# Install on Ubuntu Server
 
+# Prerequisites
 
-Ubuntu 14.04
-============
-Hockeypuck is in trusty universe. No need to add the PPA, unless you want to install newer packages for some reason.
+## Ubuntu 14.04
+The latest LTS is recommended. Hockeypuck 2.0 is currently packaged for trusty.
 
-Ubuntu 12.04
-============
+# Add the unstable Hockeypuck PPA
 
-Add the Hockeypuck project package repository
----------------------------------------------
+```
+sudo apt-add-repository ppa:hockeypuck/unstable
+sudo apt-get update
+```
 
-PPA prerequisites
-~~~~~~~~~~~~~~~~~
-In order to add PPA repositories, you'll need to make sure you have the necessary pacakges installed to manage PPAs on your server. These may already be installed on a desktop Ubuntu distribution, but may not be present on a minimal server image.::
+# Install the database of your choice
+If you plan on connecting to a local database on the same server, install it now:
 
-  $ sudo apt-get install python-software-properties
+MongoDB:
+`sudo apt-get install mongodb-server`
 
-Add the stable Hockeypuck repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-::
-
-  $ sudo apt-add-repository ppa:hockeypuck/ppa
-
-Update the package list
-=======================
-::
-
-  $ sudo apt-get update
-
-Install PostgreSQL
-==================
-If you want to run the PostgreSQL database on the same server as Hockeypuck, install it now::
-
-  $ sudo apt-get install postgresql
+PostgreSQL 9.4:
+You'll need to get it from the Postgres [Apt repository for LTS distributions](http://www.postgresql.org/download/linux/ubuntu/).
 
 Otherwise, skip and install hockeypuck. You'll need to `configure </configuration.html>`_ your Hockeypuck instance to connect to your PostgreSQL database.
 
-Install Hockeypuck
-==================
-::
+# Install Hockeypuck
 
-  $ sudo apt-get install hockeypuck
+`sudo apt-get install hockeypuck`
 
-Next Steps
-==========
-`Configure </configuration.html>`_ your Hockeypuck instance.
+# Next steps
+
+* [Configure](configuration.md) the Hockeypuck server.
+

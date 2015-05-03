@@ -9,7 +9,7 @@ the original Hockeypuck 1.x server.
 
 # Features
 
-## Standards
+## OpenPGP Standards
 
 Hockeypuck implements the
 [HKP draft protocol specification](http://ietfreport.isoc.org/idref/draft-shaw-openpgp-hkp/)
@@ -42,14 +42,14 @@ template responses that operate on the document model.
 # Install
 
 Several options are available:
-* [Install from source](install-source.md)
+* [Build and Install from source](install-source.md)
 * [Install from binaries](install-tarball.md)
 * [Install from Ubuntu archives](install-ubuntu.md)
+* [Deploy with Juju](juju.md)
 
 # Next Steps
 
 * [Configuring](configuration.md) a Hockeypuck server.
-* [Upgrading](upgrading.md) from earlier versions of Hockeypuck.
 * [Peering](peering.md) with other compatible public keyservers.
 * [Contributing](contributing.md) to Hockeypuck.
 * [Community](community.md) support for Hockeypuck, for issues and new feature requests.
