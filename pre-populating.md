@@ -11,10 +11,7 @@ The process is the same whether using MongoDB or PostgreSQL storage drivers.
 In Hockeypuck development and testing, I've used the sources listed at
 https://bitbucket.org/skskeyserver/sks-keyserver/wiki/KeydumpSources.
 
-## Stop Hockeypuck
-
-Stop the Hockeypuck server. `sudo service hockeypuck stop` if you installed on
-Ubuntu.
+## Stop the Hockeypuck service
 
 ## Load keyfiles
 
@@ -24,7 +21,5 @@ If you installed from PPA on Ubuntu, you'll want to do this as the `hockeypuck` 
 
 `su - hockeypuck -c 'hockeypuck -config /etc/hockeypuck/hockeypuck.conf /path/to/keyfiles/\*.pgp'`
 
-## Start Hockeypuck
+## Start the Hockeypuck service
 
-Start the Hockeypuck server. `sudo service hockeypuck stop` if you installed on
-Ubuntu.

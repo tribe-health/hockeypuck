@@ -6,8 +6,8 @@
 Install Go 1.2 or newer from [golang.org](http://golang.org/doc/install).
 
 ## DVCS Clients
-Go will need these DVCS clients installed in order to provision the source code
-to Hockeypuck's package dependencies:
+Go will need these DVCS clients installed in order to fetch all of Hockeypuck's
+package dependencies:
 
 * Bazaar
 * Git
@@ -23,13 +23,12 @@ On Ubuntu:
 git clone https://github.com/hockeypuck/packaging
 cd packaging
 ./prepare.bash
-export GOPATH=$(pwd)
-go build github.com/hockeypuck/server/cmd/hockeypuck
 ```
 
 # Build hockeypuck executables
 
 ```
+export GOPATH=$(pwd)
 go install github.com/hockeypuck/server/cmd/hockeypuck
 go install github.com/hockeypuck/server/cmd/hockeypuck-load
 go install github.com/hockeypuck/server/cmd/hockeypuck-pbuild
@@ -43,4 +42,5 @@ Copy the executables into the desired target location. The files under
 # Next steps
 
 * [Configure](configuration.md) the Hockeypuck server.
+* Run Hockeypuck with `/path/to/hockeypuck -config /path/to/hockeypuck.conf`.
 
