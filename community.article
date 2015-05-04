@@ -15,7 +15,7 @@ comprise the Hockeypuck product.
 *** Issues
 
 If you're having a problem with the Hockeypuck server, you should open an issue
-on https://github.com/hockeypuck/server. For historical reasons, there are also
+on [[https://github.com/hockeypuck/server]]. For historical reasons, there are also
 issues open on https://github.com/hockeypuck/hockeypuck, because that used to
 be the entire codebase of the product.
 
@@ -29,4 +29,16 @@ Use
 [[https://groups.google.com/forum/#!forum/hockeypuck-devel][hockeypuck-devel]]
 for community discussion of Hockeypuck development and direction of the
 project. Announcements will be posted there.
+
+** Support
+
+Hockeypuck is supported as a free and open-source project on my personal spare
+time. I'm happy to attempt to fix things as free time and interest permit, so
+long as this work benefits everyone.
+
+*** Professional Services
+
+Contact [[mailto:sales@cmarstech.com][Cmars Technologies LLC]] to make a bid
+for commercial support. My time is limited, but I can be persuaded to
+reprioritize.
 

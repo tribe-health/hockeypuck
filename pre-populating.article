@@ -16,7 +16,7 @@ The process is the same whether using MongoDB or PostgreSQL storage drivers.
 ** Fetch a dump of recent keyfiles
 
 In Hockeypuck development and testing, I've used the sources listed at
-https://bitbucket.org/skskeyserver/sks-keyserver/wiki/KeydumpSources.
+[[https://bitbucket.org/skskeyserver/sks-keyserver/wiki/KeydumpSources]].
 
 ** Stop the Hockeypuck service
 

@@ -71,7 +71,7 @@ Hockeypuck has vendored [[https://gopkg.in/hockeypuck/logrus][logrus]] to guard 
 
 *** godeps
 
-The [[https://github.com/hockeypuck/packaging][packaging]] project uses [(https://launchpad.net/godeps)[godeps]] for dependency manangement. I've tried many dependency management solutions for Go packages, and I find godeps to be simple and easy to work with.
+The [[https://github.com/hockeypuck/packaging][packaging]] project uses [[https://launchpad.net/godeps][godeps]] for dependency manangement. I've tried many dependency management solutions for Go packages, and I find godeps to be simple and easy to work with.
 
 *** Travis CI
 

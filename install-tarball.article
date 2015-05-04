@@ -28,8 +28,13 @@ the implications for a local UNIX domain socket connection to PostgreSQL.
 The Hockeypuck binary archive distributions could be a useful starting point to
 build packages for other operating system distributions. Contributions to the [[https://github.com/hockeypuck/packaging][packaging]] project would be welcome for RPMs, BSD ports, etc.
 
+* Running
+
+Run Hockeypuck with:
+
+	/usr/bin/hockeypuck -config /etc/hockeypuck/hockeypuck.conf
+
 * Next steps
 
 - [[configuration.html][Configure]] the Hockeypuck server.
-- Run Hockeypuck with `/path/to/hockeypuck -config /path/to/hockeypuck.conf`.
 

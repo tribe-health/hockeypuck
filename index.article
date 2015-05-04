@@ -3,7 +3,7 @@ OpenPGP Public Keyserver
 20:00 3 May 2015
 
 Casey Marshall
-https://hockeypuck.github.io/
+https://hockeypuck.github.io
 
 * About
 
@@ -65,6 +65,17 @@ Several options are available:
 
 * License
 
-Copyright 2012-2015 Casey Marshall. Hockeypuck is distributed under the [[https://www.gnu.org/licenses/agpl-3.0.html][Affero
-GNU Public License, version 3]].
+Copyright 2012-2015 Casey Marshall. Hockeypuck is distributed under the
+[[https://www.gnu.org/licenses/agpl-3.0.html][Affero GNU Public License, version 3]].
+
+In general, any use of Hockeypuck privately within an organization (including a
+company) is fine. Redistribution kicks in only when you publish services to
+other parties.
+
+The AGPL license (and my intent in licensing it such) DOES NOT permit the following distribution scenarios:
+
+- Distribute a _closed-source_ application binary that builds with Hockeypuck AGPL packages. For example, a Dropbox folder-syncing app that uses Conflux.
+- Publishing a closed-source service that uses Hockeypuck in its deployment to other parties. The AGPL includes web API access as "distribution". For example, a PGP-based web service like keybase.io could be built with Hockeypuck, but it would be required to be open-source under the redistribution terms of the AGPL.
+
+[[mailto:sales@cmarstech.com][Contact]] me for licensing alternatives (or if you're still not quite sure).
 

@@ -9,8 +9,8 @@ https://hockeypuck.github.io/
 
 ** Prerequisites
 
-Juju 1.23.2 or later is recommended to make full use of this charm's [[https://jujucharms.com/docs/stable/actions][juju
-actions]]. Install juju with:
+Juju 1.23.2 or later is recommended to make full use of this charm's
+[[https://jujucharms.com/docs/stable/actions][juju actions]]. Install juju with:
 
 	sudo apt-add-repository ppa:juju/stable
 	sudo apt-get update
@@ -18,8 +18,8 @@ actions]]. Install juju with:
 
 Also `apt-get install juju-local` if you'd like to use the local provider.
 
-Familiarity with Juju and a bootstrapped environment is assumed. Read the [[https://jujucharms.com/docs/][Juju
-Documentation]] to get started.
+Familiarity with Juju and a bootstrapped environment is assumed. Read the
+[[https://jujucharms.com/docs/][Juju Documentation]] to get started.
 
 ** Deploying Hockeypuck
 
@@ -35,8 +35,7 @@ Deploy MongoDB and relate it:
 
 ** Accessing your new instance
 
-`juju status hockeypuck` will show the public address of the Hockeypuck
-workload. For example:
+Find the `public-address` of the Hockeypuck workload. For example:
 
 	$ juju status hockeypuck
 	environment: azure

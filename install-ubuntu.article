@@ -32,9 +32,26 @@ Get it from the PostgreSQL [[http://www.postgresql.org/download/linux/ubuntu/][A
 
 	sudo apt-get install hockeypuck
 
-* Next steps
+* Configure Hockeypuck
 
-- [[configuration.html][Configure]] the Hockeypuck server.
-- Set `initstart=yes` in `/etc/default/hockeypuck`.
-- Start Hockeypuck with `sudo service hockeypuck start`
+Edit the [[configuration.html][configuration]] file `/etc/hockeypuck/hockeypuck.conf`.
+
+* Running from user-space
+
+Run the Hockeypuck from the command-line with:
+
+	/usr/bin/hockeypuck -config /path/to/custom/hockeypuck.conf
+
+* Running with upstart
+
+** Enable the service
+
+To prevent running the service unconfigured, auto-starting the service is
+disabled on package install. Enable auto-start with:
+
+	echo "initstart=yes" > /etc/default/hockeypuck
+
+** Start the service
+
+	sudo service hockeypuck start
 

@@ -42,8 +42,11 @@ On Ubuntu:
 Copy the executables into the desired target location. The files under
 `instroot` in the packaging project may also be useful.
 
+Run Hockeypuck with:
+
+	/path/to/hockeypuck -config /path/to/hockeypuck.conf
+
 * Next steps
 
 - [[configuration.html][Configure]] the Hockeypuck server.
-- Run Hockeypuck with `/path/to/hockeypuck -config /path/to/hockeypuck.conf`.
 
