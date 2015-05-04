@@ -17,7 +17,7 @@ Github projects:
 
 *** Hockeypuck Packages
 
-Hockeypuck is composed of several small Go packages, that attempt to do one thing well.
+Hockeypuck is composed of several small Go packages, each of which attempt to do one thing well.
 
 - [[https://gopkg.in/hockeypuck/conflux.v2][conflux]] Reconciliation protocol used for peering.
 - [[https://gopkg.in/hockeypuck/hkp.v1][hkp]] HKP protocol handler.
@@ -91,7 +91,7 @@ In code reviews, I'll look & ask for:
 
 - Correctness. Does it do what it claims to?
 - Succinct and appropriate naming.
-- General Go style (Effective Go, etc.) and codebase fit. When in doubt, blend in.
+- General Go style (Effective Go, etc.) and codebase fit. When in doubt, ask.
 - Godoc comments on public symbols (an area I'd like to improve)
 - Adequate test coverage.
 
