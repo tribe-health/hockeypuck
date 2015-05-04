@@ -1,11 +1,18 @@
-# Community
+Hockeypuck
+OpenPGP Public Keyserver
+20:00 3 May 2015
 
-## Github
+Casey Marshall
+https://hockeypuck.github.io/
 
-See [contributing](contributing.md) for a guide to all the Github projects that
+* Community
+
+** Github
+
+See [[contributing.html][contributing]] for a guide to all the Github projects that
 comprise the Hockeypuck product.
 
-### Issues
+*** Issues
 
 If you're having a problem with the Hockeypuck server, you should open an issue
 on https://github.com/hockeypuck/server. For historical reasons, there are also
@@ -14,12 +21,12 @@ be the entire codebase of the product.
 
 Open an issue on the other projects if your issue pertains specifically to its
 isolated use. For example, if you use
-[conflux](https://github.com/hockeypuck/conflux) in some other application, you
+[[https://github.com/hockeypuck/conflux][conflux]] in some other application, you
 should definitely open a bug there.
 
-## Mailing List
+** Mailing List
 Use
-[hockeypuck-devel](https://groups.google.com/forum/#!forum/hockeypuck-devel)
+[[https://groups.google.com/forum/#!forum/hockeypuck-devel][hockeypuck-devel]]
 for community discussion of Hockeypuck development and direction of the
 project. Announcements will be posted there.
 

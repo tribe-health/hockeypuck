@@ -1,0 +1,49 @@
+Hockeypuck
+OpenPGP Public Keyserver
+20:00 3 May 2015
+
+Casey Marshall
+https://hockeypuck.github.io/
+
+* Build and install from source
+
+* Prerequisites
+
+** Go
+Install Go 1.2 or newer from [[http://golang.org/doc/install][golang.org]].
+
+** DVCS Clients
+Go will need these DVCS clients installed in order to fetch all of Hockeypuck's
+package dependencies:
+
+- Bazaar
+- Git
+- Mercurial
+
+On Ubuntu:
+
+	sudo apt-get install bzr git mercurial
+
+* Fetch sources with the packaging scripts
+
+	git clone https://github.com/hockeypuck/packaging
+	cd packaging
+	./prepare.bash
+
+* Build hockeypuck executables
+
+	export GOPATH=$(pwd)
+	go install github.com/hockeypuck/server/cmd/hockeypuck
+	go install github.com/hockeypuck/server/cmd/hockeypuck-load
+	go install github.com/hockeypuck/server/cmd/hockeypuck-pbuild
+
+* Install
+
+Copy the executables into the desired target location. The files under
+`instroot` in the packaging project may also be useful.
+
+* Next steps
+
+- [[configuration.html][Configure]] the Hockeypuck server.
+- Run Hockeypuck with `/path/to/hockeypuck -config /path/to/hockeypuck.conf`.
+

@@ -1,4 +1,11 @@
-# Pre-populating
+Hockeypuck
+OpenPGP Public Keyserver
+20:00 3 May 2015
+
+Casey Marshall
+https://hockeypuck.github.io/
+
+* Pre-populating
 
 If you want Hockeypuck to peer with other keyservers, you will need
 to pre-populate your Hockeypuck instance to share as many public keys 
@@ -6,20 +13,20 @@ with prospective peers as possible before joining a pool of synchronizing key se
 
 The process is the same whether using MongoDB or PostgreSQL storage drivers.
 
-## Fetch a dump of recent keyfiles
+** Fetch a dump of recent keyfiles
 
 In Hockeypuck development and testing, I've used the sources listed at
 https://bitbucket.org/skskeyserver/sks-keyserver/wiki/KeydumpSources.
 
-## Stop the Hockeypuck service
+** Stop the Hockeypuck service
 
-## Load keyfiles
+** Load keyfiles
 
-`hockeypuck -config /etc/hockeypuck/hockeypuck.conf /path/to/keyfiles/\*.pgp`
+	hockeypuck -config /etc/hockeypuck/hockeypuck.conf /path/to/keyfiles/\*.pgp
 
 If you installed from PPA on Ubuntu, you'll want to do this as the `hockeypuck` user:
 
-`su - hockeypuck -c 'hockeypuck -config /etc/hockeypuck/hockeypuck.conf /path/to/keyfiles/\*.pgp'`
+	su - hockeypuck -c 'hockeypuck -config /etc/hockeypuck/hockeypuck.conf /path/to/keyfiles/\*.pgp'
 
-## Start the Hockeypuck service
+** Start the Hockeypuck service
 

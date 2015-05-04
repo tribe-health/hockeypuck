@@ -1,0 +1,70 @@
+Hockeypuck
+OpenPGP Public Keyserver
+20:00 3 May 2015
+
+Casey Marshall
+https://hockeypuck.github.io/
+
+* About
+
+Hockeypuck is an OpenPGP [[https://en.wikipedia.org/wiki/Key_server_(cryptographic)][public keyserver]].
+
+* Latest Release
+
+The latest [[https://github.com/hockeypuck/hockeypuck/releases][release]] of
+Hockeypuck is
+[[https://github.com/hockeypuck/hockeypuck/releases/tag/2.0-b2][2.0-b2]].
+Hockeypuck 2.x is a significant redesign of the original Hockeypuck 1.x server.
+
+* Features
+
+** OpenPGP Standards
+
+Hockeypuck implements the
+[[http://ietfreport.isoc.org/idref/draft-shaw-openpgp-hkp/][HKP draft protocol specification]]
+as well as several extensions to the protocol supported by [[http://sks-keyservers.net/][SKS]].
+
+Public key material conforming to [[https://tools.ietf.org/html/rfc4880][RFC 4880]] is supported by the keyserver, as
+are [[https://tools.ietf.org/html/rfc6637>][RFC 6637]] ECC keys. As-of-yet unsupported key
+material, such as recent Ed25519 signing keys, may be distributed by
+Hockeypuck, however Hockeypuck is not able to validate them yet.
+
+** SKS Reconciliation Protocol
+Hockeypuck can synchronize public key material with SKS and other Hockeypuck
+servers. Recon protocol support is provided with the
+[[https://gopkg.in/hockeypuck/conflux.v2][Conflux]] package.
+
+** Modular storage backend
+
+Hockeypuck may use either MongoDB or PostgreSQL 9.4 for storing indexed key
+material. The architecture supports additional storage backends, which must
+implement a simple set of Go interfaces.
+
+** Flexible rendering
+
+Hockeypuck internally represents key material with an arbitrary document model
+that can be used with web applications by rendering it to JSON in responses.
+HTML responses can be customized by authoring a template that operates on the
+document model.
+
+* Install
+
+Several options are available:
+
+- [[install-source.html][Build and Install from source]]
+- [[install-tarball.html][Install from tarball release]]
+- [[install-ubuntu.html][Install from Ubuntu archives]]
+- [[juju.html][Deploy with Juju]]
+
+* Next Steps
+
+- [[configuration.html][Configuring]] a Hockeypuck server.
+- [[pre-populating.html][Pre-populating]] Hockeypuck with keyfiles.
+- [[contributing.html][Contributing]] to Hockeypuck.
+- [[community.html][Community]] support for Hockeypuck, for issues and new feature requests.
+
+* License
+
+Copyright 2012-2015 Casey Marshall. Hockeypuck is distributed under the [[https://www.gnu.org/licenses/agpl-3.0.html][Affero
+GNU Public License, version 3]].
+
