@@ -74,7 +74,7 @@ other parties.
 
 The AGPL license (and my intent in licensing it such) DOES NOT permit the following distribution scenarios:
 
-- Distribute a _closed-source_ application binary that builds with Hockeypuck AGPL packages. For example, a Dropbox folder-syncing app that uses Conflux.
+- Distribute a _closed-source_ application binary that builds with Hockeypuck AGPL packages. For example, a folder-syncing app that uses Conflux.
 - Publishing a closed-source service that uses Hockeypuck in its deployment to other parties. The AGPL includes web API access as "distribution". For example, a PGP-based web service like keybase.io could be built with Hockeypuck, but it would be required to be open-source under the redistribution terms of the AGPL.
 
 [[mailto:sales@cmarstech.com][Contact]] me for licensing alternatives (or if you're still not quite sure).
