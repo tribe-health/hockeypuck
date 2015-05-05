@@ -27,27 +27,27 @@ Hockeypuck is composed of several small Go packages, each of which attempt to do
 
 *** Hockeypuck Server
 
-The Hockeypuck server at https://github.com/hockeypuck/server integrates the
+The Hockeypuck server at [[https://github.com/hockeypuck/server]] integrates the
 above packages with a server configuration model, logging, server and
 maintenance utility binaries.
 
 *** Hockeypuck Front-End
 
-https://github.com/hockeypuck/webroot is a fork of Matt Rude's
+[[https://github.com/hockeypuck/webroot]] is a fork of Matt Rude's
 [[https://github.com/mattrude/pgpkeyserver-lite][pgpkeyserver-lite]] front end.
 It's included in the Hockeypuck release for convenience.
 
 *** Hockeypuck Packaging
 
-https://github.com/hockeypuck/packaging is a collection of release management
+[[https://github.com/hockeypuck/packaging]] is a collection of release management
 scripts. These scripts fetch the above Hockeypuck source packages and all their
 dependencies at known compatible and working versions. Debian packaging as well
 as cross-compiled tarballs are supported for release distribution.
 
 *** Hockeypuck documentation
 
-This project, https://github.com/hockeypuck/hockeypuck used to be the entire
-Hockeypuck source tree, but since it has been broken up into separate package
+[[https://github.com/hockeypuck/hockeypuck]] used to be the entire
+Hockeypuck source tree, but since splitting up into separate package
 projects, it is used primarily for project documentation.
 
 *** Hockeypuck testing
@@ -75,7 +75,7 @@ The [[https://github.com/hockeypuck/packaging][packaging]] project uses [[https:
 
 *** Travis CI
 
-Many of the Hockeypuck projects use Travis CI to build and test the projects on
+Many of the Hockeypuck projects use [[https://travis-ci.org/hockeypuck][Travis CI]] to build and test the projects on
 commit. I've found Travis to be more useful than not for small, simple projects
 with short tests. Which is really where you want to be. It's also nice to test
 on many versions of Go, which is something I would not bother to do on every
@@ -91,7 +91,7 @@ In code reviews, I'll look & ask for:
 
 - Correctness. Does it do what it claims to?
 - Succinct and appropriate naming.
-- General Go style (Effective Go, etc.) and codebase fit. When in doubt, ask.
+- General Go style ([[https://golang.org/doc/effective_go.html][Effective Go]], etc.) and codebase fit. When in doubt, ask.
 - Godoc comments on public symbols (an area I'd like to improve)
 - Adequate test coverage.
 

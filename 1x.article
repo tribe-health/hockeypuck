@@ -1,0 +1,23 @@
+Hockeypuck
+OpenPGP Public Keyserver
+20:00 3 May 2015
+
+Casey Marshall
+https://hockeypuck.github.io
+
+* Hockeypuck 1.0
+
+Hockeypuck 1.0 is deprecated and available here for archival purposes only. New
+installations of 1.0 are not recommended. Upgrading to 2.0 is strongly
+recommended as soon as a migration path is available (this is a work in
+progress).
+
+** Archived Sources
+
+The [[https://github.com/hockeypuck/hockeypuck/tree/1.0.1][1.0.1]] branch
+still contains the Hockeypuck 1.x source tree.
+
+** Archived Releases
+
+Older binary releases are available [[https://launchpad.net/hockeypuck/+download][on Launchpad]].
+
