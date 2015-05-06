@@ -83,8 +83,45 @@ Or behind squid for caching.
 	juju set squid-reverseproxy port=11371
 	juju expose squid
 
-** TODOs
+* Actions
 
-TODO: using the actions
-TODO: peering relations
+The [[https://jujucharms.com/u/hockeypuck/hockeypuck/trusty/][Hockeypuck charm]] provides
+several useful Juju actions for your new keyserver.
+
+** fetch-keyfiles
+
+`fetch-keyfiles` downloads OpenPGP binary keyfiles from a remote location to a local directory on the keyserver.
+
+*** Parameters
+
+**** src
+
+Required. The remote location to fetch keyfiles from. This is expected to be a
+directory containing concatenated OpenPGP public keys in RFC 4880 binary
+format. These are the files typically produced by an SKS dump, and should have
+a `*.pgp` file extension.
+
+`rsync://`, `http://` and `ftp://` protocols are supported.
+
+Please be mindful of the network activity that this action can place on the
+remote server hosting the files. Use sparingly on global pool dumps; otherwise
+mirror the files.
+
+**** dest
+
+Local directory where the files will be stored. `/srv/hockeypuck/import` is the
+default if not specified.
+
+** load-keyfiles
+
+Stops the hockeypuck service and loads keyfiles into Hockeypuck.
+
+*** Parameters
+
+**** path
+
+Local directory where files will be loaded from. `/srv/hockeypuck/import` is the
+default.
+
+* TODO: Peering
 
