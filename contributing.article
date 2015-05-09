@@ -70,8 +70,8 @@ with regard to compatibility.
 *** godeps
 
 The [[https://github.com/hockeypuck/server][server]] releases use
-[[https://launchpad.net/godeps][godeps]] for
-[[https://github.com/hockeypuck/server/blob/master/dependencies.tsv][mananging package dependencies]].
+[[https://launchpad.net/godeps][godeps]] for managing
+[[https://github.com/hockeypuck/server/blob/master/dependencies.tsv][package dependencies]].
 I've tried several other dependency management solutions for Go
 packages, and I find godeps to be simple, easy to work with and
 well-maintained.
