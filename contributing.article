@@ -52,26 +52,29 @@ projects, it is used primarily for project documentation.
 
 *** Hockeypuck testing
 
-https://github.com/hockeypuck/testing contains testdata used by some of the
+[[https://github.com/hockeypuck/testing]] contains testdata used by some of the
 other projects, such as OpenPGP key material examples used in
 [[https://gopkg.in/hockeypuck/openpgp][openpgp]] test cases. It also contains
-Ansible playbooks used to coordinate integration tests. These might be a useful
-starting point, if you would like to automate your Hockeypuck deployment with
-Ansible.
+[[http://docs.ansible.com/][Ansible]] playbooks used to coordinate integration
+tests. These might be a useful starting point for an Ansible-based deployment
+of Hockeypuck.
 
 ** Tools
 
 *** gopkg
 
-https://gopkg.in is used to version Hockeypuck APIs. This is a distinct concern
+[[https://gopkg.in]] is used to version Hockeypuck APIs. This is a distinct concern
 from dependency revision management. Versioned APIs provide certain guarantees
 with regard to compatibility.
 
-Hockeypuck has vendored [[https://gopkg.in/hockeypuck/logrus][logrus]] to guard against upstream API changes.
-
 *** godeps
 
-The [[https://github.com/hockeypuck/packaging][packaging]] project uses [[https://launchpad.net/godeps][godeps]] for dependency manangement. I've tried many dependency management solutions for Go packages, and I find godeps to be simple and easy to work with.
+The [[https://github.com/hockeypuck/server][server]] releases use
+[[https://launchpad.net/godeps][godeps]] for
+[[https://github.com/hockeypuck/server/blob/master/dependencies.tsv][mananging package dependencies]].
+I've tried several other dependency management solutions for Go
+packages, and I find godeps to be simple, easy to work with and
+well-maintained.
 
 *** Travis CI
 
@@ -93,5 +96,5 @@ In code reviews, I'll look & ask for:
 - Succinct and appropriate naming.
 - General Go style ([[https://golang.org/doc/effective_go.html][Effective Go]], etc.) and codebase fit. When in doubt, ask.
 - Godoc comments on public symbols (an area I'd like to improve)
-- Adequate test coverage.
+- Adequate test coverage (ditto)
 
