@@ -1,0 +1,56 @@
+envExport: 
+  services: 
+    "hkp1-hockeypuck": 
+      charm: "cs:~hockeypuck/trusty/hockeypuck-8"
+      num_units: 1
+      annotations: 
+        "gui-x": "523"
+        "gui-y": "274.5"
+    "hkp1-mongodb": 
+      charm: "cs:trusty/mongodb-18"
+      num_units: 1
+      options: 
+        dbpath: /mnt
+      annotations: 
+        "gui-x": "753.7806788511749"
+        "gui-y": "274.5"
+    "hkp1-haproxy": 
+      charm: "cs:trusty/haproxy-6"
+      num_units: 1
+      expose: true
+      annotations: 
+        "gui-x": "638.3903394255875"
+        "gui-y": "74.63806941226437"
+    "hkp2-hockeypuck": 
+      charm: "cs:~hockeypuck/trusty/hockeypuck-8"
+      num_units: 1
+      annotations: 
+        "gui-x": "407.60966057441254"
+        "gui-y": "74.63806941226437"
+    "hkp2-mongodb": 
+      charm: "cs:trusty/mongodb-18"
+      num_units: 1
+      options: 
+        dbpath: /mnt
+      annotations: 
+        "gui-x": "292.2193211488251"
+        "gui-y": "274.5"
+    "hkp2-haproxy": 
+      charm: "cs:trusty/haproxy-6"
+      num_units: 1
+      expose: true
+      annotations: 
+        "gui-x": "407.60966057441254"
+        "gui-y": "474.3619305877356"
+  relations: 
+    - - "hkp1-mongodb:database"
+      - "hkp1-hockeypuck:mongodb"
+    - - "hkp1-haproxy:reverseproxy"
+      - "hkp1-hockeypuck:website"
+    - - "hkp2-mongodb:database"
+      - "hkp2-hockeypuck:mongodb"
+    - - "hkp2-haproxy:reverseproxy"
+      - "hkp2-hockeypuck:website"
+    - - "hkp1-hockeypuck:keymaster"
+      - "hkp2-hockeypuck:gatekeeper"
+  series: trusty
