@@ -13,7 +13,7 @@ Hockeypuck is an OpenPGP [[https://en.wikipedia.org/wiki/Key_server_(cryptograph
 
 The latest [[https://github.com/hockeypuck/hockeypuck/releases][release]] of
 Hockeypuck is
-[[https://github.com/hockeypuck/hockeypuck/releases/tag/2.0-b3][2.0-b3]].
+[[https://github.com/hockeypuck/hockeypuck/releases/tag/2.0-b4][2.0-b4]].
 
 Hockeypuck 2.0 is a significant redesign of the original [[1x.html][Hockeypuck 1.0]],
 which is now deprecated. All bug fixes and new development will be on 2.0 releases.
@@ -61,7 +61,8 @@ Several options are available:
 * Next Steps
 
 - [[configuration.html][Configuring]] a Hockeypuck server.
-- [[pre-populating.html][Pre-populating]] Hockeypuck with keyfiles.
+- [[populating.html][Populating]] Hockeypuck with keyfiles.
+- [[dumping.html][Dumping]] Hockeypuck database contents to keyfiles.
 - [[contributing.html][Contributing]] to Hockeypuck.
 - [[community.html][Community]] support for Hockeypuck, for issues and new feature requests.
 

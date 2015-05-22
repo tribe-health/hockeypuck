@@ -1,0 +1,27 @@
+Hockeypuck
+OpenPGP Public Keyserver
+20:00 3 May 2015
+
+Casey Marshall
+https://hockeypuck.github.io/
+
+* Dumping keyfiles
+
+** Stop the Hockeypuck service
+
+Currently, Hockeypuck must be down in order to dump keyfiles.
+
+*** Minimizing downtime
+
+- Stop Hockeypuck
+- Copying the configured prefix tree to a backup location
+- Start Hockeypuck
+- Create a `hockeypuck-dump.conf` that references the backup prefix tree.
+- Run `hockeypuck-dump -config hockeypuck-dump.conf`.
+
+** Dump keyfiles
+
+    hockeypuck-dump -config /etc/hockeypuck/hockeypuck.conf -path /path/to/keyfiles
+
+This will create files sequenced as `hkp-dump-NNNN.pgp`.
+

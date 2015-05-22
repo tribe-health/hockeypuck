@@ -9,6 +9,19 @@ https://hockeypuck.github.io/
 
 Hockeypuck reads configuration from a TOML-format configuration file.
 
+** Hosting
+
+    [hockeypuck]
+    contact=0xF79362DA44A2D1DB
+    hostname=keys.cmarstech.com
+
+These settings are displayed on the stats page (/pks/lookup?op=stats). The
+`contact` field should contain the long key ID or full fingerprint of the
+keyserver administrator. The `hostname` field should be set to the external
+hostname of the server (which may differ from the keyserver host, if
+reverse-proxied). `hostname` may be used to identify the server in
+synchronizing pool.
+
 ** Logging
 
 	[hockeypuck]

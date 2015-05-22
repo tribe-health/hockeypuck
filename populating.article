@@ -5,11 +5,11 @@ OpenPGP Public Keyserver
 Casey Marshall
 https://hockeypuck.github.io/
 
-* Pre-populating
+* Populating
 
-If you want Hockeypuck to peer with other keyservers, you will need
-to pre-populate your Hockeypuck instance to share as many public keys 
-with prospective peers as possible before joining a pool of synchronizing key servers.
+If you want Hockeypuck to peer with other keyservers, you will need to populate
+your Hockeypuck instance to share as many public keys with prospective peers as
+possible before joining a pool of synchronizing key servers.
 
 The process is the same whether using MongoDB or PostgreSQL storage drivers.
 
