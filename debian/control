@@ -1,4 +1,4 @@
-Source: hockeypuck
+Source: hockeypuck1-migration-tools
 Section: net
 Priority: optional
 Maintainer: Casey Marshall <cmars@cmarstech.com>
@@ -6,12 +6,14 @@ Build-Depends: debhelper (>= 8.0.0), golang-go (>= 2:1.1)
 Standards-Version: 3.9.5
 Homepage: https://hockeypuck.github.io/
 
-Package: hockeypuck
+Package: hockeypuck1-dump
 Architecture: i386 amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, adduser
 Recommends:
  logrotate, upstart, fonts-droid
 Suggests:
  postgresql
-Description: OpenPGP Key Server
+Description: Dump utility for Hockeypuck 1.x
  Hockeypuck is an OpenPGP Key Server implementing the HTTP Keyserver Protocol.
+ This is a dump utility provided to assist migrating keys from Hockeypuck 1.x to
+ 2.x.

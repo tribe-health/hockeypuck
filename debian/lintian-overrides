@@ -1,0 +1,4 @@
+hockeypuck1-dump binary: unstripped-binary-or-object usr/bin/hockeypuck1-dump
+hockeypuck1-dump binary: hardening-no-relro usr/bin/hockeypuck1-dump
+hockeypuck1-dump binary: binary-without-manpage usr/bin/hockeypuck1-dump
+
