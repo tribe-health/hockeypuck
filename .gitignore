@@ -10,3 +10,4 @@ __pycache__
 debian/files
 version-git-commit
 version-release
+*.snap

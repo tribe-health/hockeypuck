@@ -29,7 +29,7 @@ deb-src:
 	debuild -S -sa -I.git
 
 install-build-depends:
-	sudo apt install \
+	sudo apt install -y \
 	    debhelper \
 	    git-buildpackage \
 	    golang-1.12  # Requires ppa:canonical-sysadmins/golang
